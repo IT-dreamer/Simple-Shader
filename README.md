@@ -5,7 +5,7 @@ This shader can be used for simple shading of the model, and the shading method 
 
 # Requirements
 
-You don't need to configure any libraries or dependencies, just click the exe file to run
+You don't need to configure any libraries or dependencies, just click the exe file to run. Model files and texture files are pre-prepared. You can also use other models or textures if you like.
 
 # Usage
 
