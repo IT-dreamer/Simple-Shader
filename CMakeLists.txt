@@ -4,7 +4,7 @@ set(CMAKE_PREFIX_PATH "C:\\Program Files\\vcpkg-master\\installed\\x64-windows\\
 
 include_directories(${CMAKE_CURRENT_LIST_DIR}/inc)
 
-set(CPP_FILE "${CMAKE_CURRENT_LIST_DIR}/src/main.cpp" "${CMAKE_CURRENT_LIST_DIR}/src/rasterizer.cpp" "${CMAKE_CURRENT_LIST_DIR}/src/Triangle.cpp" "${CMAKE_CURRENT_LIST_DIR}/src/Texture.cpp")
+set(CPP_FILE "${CMAKE_CURRENT_LIST_DIR}/src/main.cpp" "${CMAKE_CURRENT_LIST_DIR}/src/rasterizer.cpp" "${CMAKE_CURRENT_LIST_DIR}/src/Triangle.cpp")
 set(HPP_FILE "${CMAKE_CURRENT_LIST_DIR}/inc/rasterizer.hpp" "${CMAKE_CURRENT_LIST_DIR}/inc/Triangle.hpp")
 
 find_package(OpenCV REQUIRED)
