@@ -5,7 +5,7 @@ This shader can be used for simple shading of the model, and the shading method 
 
 # Requirements
 
-You don't need to configure any libraries or dependencies, just click the exe file to run. Model files and texture files are pre-prepared. You can also use other models or textures if you like.
+You don't need to configure any libraries or dependencies, just move all the files in the DLL file to your workspace directory.And then click exe file. You will find a colorful calf. Model files and texture files are pre-prepared. You can also use other models or textures if you like.
 
 # Usage
 
