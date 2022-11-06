@@ -15,6 +15,6 @@ include_directories(${EIGEN3_INCLUDE_DIR})
 
 set(CMAKE_CXX_STANDARD 17)
 
-target_link_libraries(Rasterizer ${OpenCV_LIBS})
-
 add_executable(${PROJECT_NAME} ${CPP_FILE} ${HPP_FILE})
+
+target_link_libraries(Rasterizer ${OpenCV_LIBS})
