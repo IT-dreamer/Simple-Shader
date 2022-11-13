@@ -206,6 +206,133 @@ Eigen::Vector3f phong_fragment_shader(const fragment_shader_payload& payload)
     return result_color * 255.f;
 }
 
+Eigen::Vector3f displacement_fragment_shader(const fragment_shader_payload& payload)
+{
+
+    Eigen::Vector3f ka = Eigen::Vector3f(0.005, 0.005, 0.005);
+    Eigen::Vector3f kd = payload.color;
+    Eigen::Vector3f ks = Eigen::Vector3f(0.7937, 0.7937, 0.7937);
+
+    auto l1 = light{ {20, 20, 20}, {500, 500, 500} };
+    auto l2 = light{ {-20, 20, 0}, {500, 500, 500} };
+
+    std::vector<light> lights = { l1, l2 };
+    Eigen::Vector3f amb_light_intensity{ 10, 10, 10 };
+    Eigen::Vector3f eye_pos{ 0, 0, 10 };
+
+    float p = 150;
+
+    Eigen::Vector3f color = payload.color;
+    Eigen::Vector3f point = payload.view_pos;
+    Eigen::Vector3f normal = payload.normal;
+
+    float kh = 0.2, kn = 0.1;
+    float x = normal.x();
+    float y = normal.y();
+    float z = normal.z();
+
+    Eigen::Vector3f t(x * y / sqrt(x * x + z * z), sqrt(x * x + z * z), z * y / sqrt(x * x + z * z));
+    Eigen::Vector3f b = normal.cross(t);
+
+    Eigen::Matrix3f TBN;
+    TBN <<
+        t.x(), b.x(), normal.x(),
+        t.y(), b.y(), normal.y(),
+        t.z(), b.z(), normal.z();
+
+    float u = payload.tex_coords.x();
+    float v = payload.tex_coords.y();
+    float w = payload.texture->width;
+    float h = payload.texture->height;
+
+    Eigen::Vector3f result_color = { 0, 0, 0 };
+
+    float dU = kh * kn * (payload.texture->getColor(u + 1.0f / w, v).norm() - payload.texture->getColor(u, v).norm());
+    float dV = kh * kn * (payload.texture->getColor(u, v + 1.0f / h).norm() - payload.texture->getColor(u, v).norm());
+
+    Eigen::Vector3f ln = Eigen::Vector3f(-dU, -dV, 1.0f);
+    
+    point = point + kn * normal * payload.texture->getColor(u, v).norm();
+
+    normal = TBN * ln;
+
+    for (auto& light : lights)
+    {
+        Eigen::Vector3f light_dir = light.position - point;
+
+        Eigen::Vector3f view_dir = eye_pos - point;
+
+        float r = light_dir.dot(light_dir);
+
+        // ambient
+        Eigen::Vector3f La = ka.cwiseProduct(amb_light_intensity);
+        // diffuse
+        Eigen::Vector3f Ld = kd.cwiseProduct(light.intensity / r);
+        Ld *= std::max(0.0f, normal.normalized().dot(light_dir.normalized()));
+        // specular
+        Eigen::Vector3f h = (light_dir + view_dir).normalized();
+        Eigen::Vector3f Ls = ks.cwiseProduct(light.intensity / r);
+        Ls *= std::pow(std::max(0.0f, normal.normalized().dot(h)), p);
+
+        result_color += (La + Ld + Ls);
+    }
+
+    return result_color * 255.f;
+}
+
+
+Eigen::Vector3f bump_fragment_shader(const fragment_shader_payload& payload)
+{
+
+    Eigen::Vector3f ka = Eigen::Vector3f(0.005, 0.005, 0.005);
+    Eigen::Vector3f kd = payload.color;
+    Eigen::Vector3f ks = Eigen::Vector3f(0.7937, 0.7937, 0.7937);
+
+    auto l1 = light{ {20, 20, 20}, {500, 500, 500} };
+    auto l2 = light{ {-20, 20, 0}, {500, 500, 500} };
+
+    std::vector<light> lights = { l1, l2 };
+    Eigen::Vector3f amb_light_intensity{ 10, 10, 10 };
+    Eigen::Vector3f eye_pos{ 0, 0, 10 };
+
+    float p = 150;
+
+    Eigen::Vector3f color = payload.color;
+    Eigen::Vector3f point = payload.view_pos;
+    Eigen::Vector3f normal = payload.normal;
+
+
+    float kh = 0.2, kn = 0.1;
+    float x = normal.x();
+    float y = normal.y();
+    float z = normal.z();
+
+    Eigen::Vector3f t(x * y / sqrt(x * x + z * z), sqrt(x * x + z * z), z * y / sqrt(x * x + z * z));
+    Eigen::Vector3f b = normal.cross(t);
+
+    Eigen::Matrix3f TBN;
+    TBN <<
+        t.x(), b.x(), normal.x(),
+        t.y(), b.y(), normal.y(),
+        t.z(), b.z(), normal.z();
+
+    float u = payload.tex_coords.x();
+    float v = payload.tex_coords.y();
+    float w = payload.texture->width;
+    float h = payload.texture->height;
+
+    float dU = kh * kn * (payload.texture->getColor(u + 1.0f / w, v).norm() - payload.texture->getColor(u, v).norm());
+    float dV = kh * kn * (payload.texture->getColor(u, v + 1.0f / h).norm() - payload.texture->getColor(u, v).norm());
+
+    Eigen::Vector3f ln = Eigen::Vector3f(-dU, -dV, 1.0f);
+    normal = TBN * ln;
+
+    Eigen::Vector3f result_color = { 0, 0, 0 };
+    result_color = normal;
+
+    return result_color * 255.f;
+}
+
 bool errot_output()
 {
     std::cout << "Parameter error. Please try again." << std::endl;
