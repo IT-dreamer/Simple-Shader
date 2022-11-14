@@ -25,9 +25,19 @@ You don't need to configure any libraries or dependencies, just move all the fil
 .\Rasterizer.exe texture
 ```
 
+- Bump Shader
+```
+.\Rasterizer.exe bump
+```
+
+- Displament Map
+```
+.\Rasterizer.exe displacement
+```
+
 - Press **A**:rotate the model to the left
 - Press **D**:rotate the model to the right
-
+- Press **Esc**:exit the program
 
 
 
