@@ -349,11 +349,9 @@ int main(int argc, const char** argv)
 
     std::string filename = "output.png";
     objl::Loader Loader;
-    std::string obj_path = "../models/spot/";
 
     // Load .obj File
     std::string obj_file = "model.obj";
-    //bool loadout = Loader.LoadFile("../models/spot/spot_triangulated_good.obj");
     bool loadout = Loader.LoadFile(obj_file);
     for(auto mesh:Loader.LoadedMeshes)
     {
@@ -372,8 +370,8 @@ int main(int argc, const char** argv)
 
     rst::rasterizer r(700, 700);
 
-    //auto texture_path = "hmap.jpg";
-    //r.set_texture(Texture(obj_path + texture_path));
+    auto texture_path = "hmap.jpg";
+    r.set_texture(Texture(texture_path));
 
     std::function<Eigen::Vector3f(fragment_shader_payload)> active_shader = phong_fragment_shader;
 
@@ -385,11 +383,8 @@ int main(int argc, const char** argv)
         {
             std::cout << "Rasterizing using the texture shader\n";
             active_shader = texture_fragment_shader;
-            //texture_path = "spot_texture.png";
             std::string texture_file = "texture.png";
             r.set_texture(Texture(texture_file));
-            //r.set_texture(Texture(obj_path + texture_path));
-            //r.set_texture(std::string(argv[3]));
         }
         else if (std::string(argv[1]) == "normal")
         {
@@ -400,6 +395,16 @@ int main(int argc, const char** argv)
         {
             std::cout << "Rasterizing using the phong shader\n";
             active_shader = phong_fragment_shader;
+        }
+        else if (std::string(argv[1]) == "bump")
+        {
+            std::cout << "Rasterizing using the bump fragment shader\n";
+            active_shader = bump_fragment_shader;
+        }
+        else if (std::string(argv[1]) == "displacement")
+        {
+            std::cout << "Rasterizing using the displacement fragment shader\n";
+            active_shader = displacement_fragment_shader;
         }
     }
 
