@@ -1,15 +1,15 @@
-# Introduction
+[English Overview](/README_En.md)
+# 紹介
+このシェーダはモデルの簡単なシェーディングができる。ノーマルシェーダー、phongシェーダー、UVテクスチャシェーダー、バンプマップ、ディスプレースメントマップがあります。
 
-This shader can be used for simple shading of the model, and the shading method uses the Blinn-Phong Reflectance Model
 
+# 要件
 
-# Requirements
+ライブラリや他の配置を行う必要はありません。実行可能ファイルが事前に用意したので、そのままで実行してもokですよ。*Rasterize.exe*をクリックして、カラフルな子牛が出て来ます。AとSを押すとモデルが回転されます。ESCがプログラムを終了させます。モデルファイルとテクスチャファイルがあらかじめ用意されていますが、他のモデルやテクスチャを使用することもできます。
 
-You don't need to configure any libraries or dependencies, just move all the files in the DLL file to your workspace directory.And then click exe file. You will find a colorful calf. Model files and texture files are pre-prepared. You can also use other models or textures if you like.
+# 使用方法
 
-# Usage
-
-- Normal Shader(Default)
+- Normal Shader(デフォルト)
 
 ```
 .\Rasterizer.exe normal
@@ -37,9 +37,9 @@ You don't need to configure any libraries or dependencies, just move all the fil
 .\Rasterizer.exe displacement
 ```
 ![avatar](/doc/picture/displacement.png)
-- Press **A**:rotate the model to the left
-- Press **D**:rotate the model to the right
-- Press **Esc**:exit the program
+- **A** : モデルを左に回転
+- **D** : モデルを右に回転させます
+- **Esc** : プログラムを終了します
 
 
 
